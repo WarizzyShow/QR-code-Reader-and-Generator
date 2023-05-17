@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR code</title>
+</head>
+<body>  
+  <form action="/QRcode" method="post">
+    <input type="text" name="text_input" id="text_input">    
+    <button id="go">Generate QR</button> 
+      <div id="results"  style="height: 200px; width: 200px;">
+  
+      </div>
+
+  </form>
+</body>
+<script>
+  const go = document.getElementById('go');
+ const frm = document.getElementById('results')
+  go.addEventListener('click', (e) => {
+    e.preventDefault();
+    const text_input = document.getElementById('text_input').value;
+    fetch("http://localhost:2040/QRcode", {
+     method: "POST",
+   body: JSON.stringify({
+    "text_input": text_input
+  }),
+  headers: {
+    "Content-type": "application/json; charset=UTF-8"
+  }
+}).then(response => response.text())
+  .then(svg =>frm.insertAdjacentHTML("afterbegin", svg));
+  })
+
+  </script>
+</html>
